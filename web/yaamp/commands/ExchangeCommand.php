@@ -153,11 +153,6 @@ class ExchangeCommand extends CConsoleCommand
 			if (!is_object($balance)) echo "bleutrade error\n";
 			else echo("bleutrade btc: ".json_encode($balance->result)."\n");
 		}
-		if (!empty(EXCH_BTER_KEY)) {
-			$info = bter_api_user('getfunds');
-			if (!$info || arraySafeVal($info,'result') != 'true' || !isset($info['available_funds'])) echo "bter error\n";
-			else echo("bter available: ".json_encode($info['available_funds'])."\n");
-		}
 		if (!empty(EXCH_CCEX_KEY)) {
 			$ccex = new CcexAPI;
 			$balances = $ccex->getBalances();
@@ -196,8 +191,8 @@ class ExchangeCommand extends CConsoleCommand
 			$balance = kraken_api_user('Balance');
 			echo("kraken btc: ".json_encode($balance)."\n");
 		}
-		if (!empty(EXCH_KUCOIN_KEY)) {
-			$balance = kucoin_api_user('account/BTC/balance');
+		if (!empty(EXCH_KUCOIN_KEY) && !empty(EXCH_KUCOIN_PASSPHRASE)) {
+			$balance = kucoin_api_user('accounts',array('currency'=>'BTC'));
 			if (!is_object($balance) || !isset($balance->data)) echo "kucoin error ".json_encode($balance)."\n";
 			else echo("kucoin: ".json_encode($balance->data)."\n");
 		}

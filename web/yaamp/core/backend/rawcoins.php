@@ -9,7 +9,6 @@ function updateRawcoins()
 
 	exchange_set_default('alcurex', 'disabled', true);
 	exchange_set_default('binance', 'disabled', true);
-	exchange_set_default('bter', 'disabled', true);
 	exchange_set_default('empoex', 'disabled', true);
 	exchange_set_default('coinbene', 'disabled', true);
 	exchange_set_default('coinexchange', 'disabled', true);
@@ -123,26 +122,6 @@ function updateRawcoins()
 				$symbol = strtoupper($e[0]);
 
 				updateRawCoin('c-cex', $symbol, arraySafeVal($names, $e[0], 'unknown'));
-			}
-		}
-	}
-
-	if (!exchange_get('bter', 'disabled')) {
-		$list = bter_api_query('marketlist');
-		if(is_object($list) && is_array($list->data))
-		{
-			dborun("UPDATE markets SET deleted=true WHERE name='bter'");
-			foreach($list->data as $item) {
-				if (strtoupper($item->curr_b) !== 'BTC')
-					continue;
-				if (strpos($item->name, 'Asset') !== false)
-					continue;
-				if (strpos($item->name, 'BitShares') !== false && $item->symbol != 'BTS')
-					continue;
-				// ignore some dead coins and assets
-				if (in_array($item->symbol, array('BITGLD','DICE','ROX','TOKEN')))
-					continue;
-				updateRawCoin('bter', $item->symbol, $item->name);
 			}
 		}
 	}
@@ -359,14 +338,13 @@ function updateRawcoins()
 	}
 
 	if (!exchange_get('kucoin', 'disabled')) {
-		$list = kucoin_api_query('market/open/coins');
-		if(is_object($list) && isset($list->data) && !empty($list->data))
+		$list = kucoin_api_query('currencies');
+		if(kucoin_result_valid($list) && !empty($list->data))
 		{
 			dborun("UPDATE markets SET deleted=true WHERE name='kucoin'");
 			foreach($list->data as $item) {
-				$symbol = $item->coin;
-				$name = $item->name;
-				if (strpos($item->withdrawRemark,'Ethereum')) continue;
+				$symbol = $item->name;
+				$name = $item->fullName;
 				updateRawCoin('kucoin', $symbol, $name);
 			}
 		}

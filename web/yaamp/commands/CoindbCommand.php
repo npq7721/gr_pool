@@ -50,8 +50,7 @@ class CoindbCommand extends CConsoleCommand
 
 		} elseif ($args[0] == 'icons') {
 
-			$nbUpdated  = $this->grabBterIcons();
-			$nbUpdated += $this->grabCcexIcons();
+			$nbUpdated  = $this->grabCcexIcons();
 			$nbUpdated += $this->grabCryptopiaIcons();
 			$nbUpdated += $this->grabBittrexIcons(); // can be huge ones
 			$nbUpdated += $this->grabCoinExchangeIcons();
@@ -296,41 +295,6 @@ class CoindbCommand extends CConsoleCommand
 	}
 
 	/**
-	 * Icon grabber - Bter
-	 */
-	public function grabBterIcons()
-	{
-		$url = 'http://bter.com/images/coin_icon/64/';
-		$nbUpdated = 0;
-		$sql = "SELECT DISTINCT coins.id FROM coins INNER JOIN markets M ON M.coinid = coins.id WHERE M.name='bter' AND IFNULL(coins.image,'') = ''";
-		$coins = dbolist($sql);
-		if (empty($coins))
-			return 0;
-		echo "bter: try to download new icons...\n";
-		foreach ($coins as $coin) {
-			$coin = getdbo('db_coins', $coin["id"]);
-			$symbol = $coin->symbol;
-			if (!empty($coin->symbol2)) $symbol = $coin->symbol2;
-			$local = $this->basePath."/images/coin-{$symbol}.png";
-			try {
-				$data = @ file_get_contents($url.strtolower($symbol).'.png');
-			} catch (Exception $e) {
-				continue;
-			}
-			if (strlen($data) < 2048) continue;
-			echo $coin->symbol." icon found\n";
-			file_put_contents($local, $data);
-			if (filesize($local) > 0) {
-				$coin->image = "/images/coin-{$symbol}.png";
-				$nbUpdated += $coin->save();
-			}
-		}
-		if ($nbUpdated)
-			echo "$nbUpdated icons downloaded from bter\n";
-		return $nbUpdated;
-	}
-
-	/**
 	 * Icon grabber - Bittrex
 	 */
 	public function grabBittrexIcons()
@@ -530,7 +494,7 @@ class CoindbCommand extends CConsoleCommand
 	 */
 	public function grabKuCoinIcons()
 	{
-		$url = 'https://assets.kucoin.com/www/1.2.0/assets/coins/';//QLC.png
+		$url = 'https://assets.kucoin.com/www/coin/pc/';//GRIN.png
 		$nbUpdated = 0;
 		$sql = "SELECT DISTINCT coins.id FROM coins INNER JOIN markets M ON M.coinid = coins.id ".
 			"WHERE M.name='kucoin' AND IFNULL(coins.image,'') = ''";

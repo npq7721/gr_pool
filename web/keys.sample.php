@@ -3,6 +3,7 @@
 
 define('YIIMP_MYSQLDUMP_USER', 'root');
 define('YIIMP_MYSQLDUMP_PASS', '<my_mysql_password>');
+define('YIIMP_MYSQLDUMP_PATH', '/root/backup');
 
 /* Keys required to create/cancel orders and access your balances/deposit addresses */
 define('EXCH_BITTREX_SECRET', '<my_bittrex_api_secret_key>');

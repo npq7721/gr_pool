@@ -2,9 +2,6 @@
 
 function BackendDoBackup()
 {
-	$d = date('Y-m-d-H', time());
-	$filename = "/root/backup/yaamp-$d.sql";
-
 	if (is_readable("/usr/bin/xz")) {
 		$ziptool = "xz --threads=4"; $ext = ".xz";
 	} else {
@@ -18,6 +15,9 @@ function BackendDoBackup()
 
 	$user = YIIMP_MYSQLDUMP_USER;
 	$pass = YIIMP_MYSQLDUMP_PASS;
+
+	$d = date('Y-m-d-H', time());
+	$filename = YIIMP_MYSQLDUMP_PATH.DIRECTORY_SEPARATOR."$db-$d.sql";
 
 	if (1) {
 		// faster on huge databases if the disk is fast (nvme), reduce the db lock time
