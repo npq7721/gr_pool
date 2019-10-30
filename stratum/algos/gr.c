@@ -53,19 +53,11 @@ enum Algo {
 
 enum CNAlgo {
 	CNDark = 0,
-	CNDarkf,
 	CNDarklite,
-	CNDarklitef,
 	CNFast,
-	CNFastf,
-	CNF,
 	CNLite,
-	CNLitef,
-	CNSoftshellf,
 	CNTurtle,
-	CNTurtlef,
 	CNTurtlelite,
-	CNTurtlelitef,
 	CN_HASH_FUNC_COUNT
 };
 
@@ -135,9 +127,9 @@ void gr_hash(const char* input, char* output, uint32_t len) {
 	void *in = (void*) input;
 	int size = 80;
 	uint8_t selectedAlgoOutput[15] = {0};
-	uint8_t selectedCNAlgoOutput[14] = {0};
+	uint8_t selectedCNAlgoOutput[6] = {0};
 	getAlgoString(&input[4], 64, selectedAlgoOutput, 15);
-	getAlgoString(&input[4], 64, selectedCNAlgoOutput, 14);
+	getAlgoString(&input[4], 64, selectedCNAlgoOutput, 6);
 	int i;
 	for (i = 0; i < 18; i++)
 	{
