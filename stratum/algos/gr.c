@@ -170,46 +170,22 @@ void gr_hash(const char* input, char* output, uint32_t len) {
 		switch(cnAlgo)
 		{
 		 case CNDark:
-			cryptonightdark_hash(in, (char*)hash, size, 1);
-			break;
-		 case CNDarkf:
-			cryptonightdark_fast_hash(in, (char*)hash, size);
+			cryptonightdark_hash(in, hash, size, 1);
 			break;
 		 case CNDarklite:
-			cryptonightdarklite_hash(in, (char*)hash, size, 1);
-			break;
-		 case CNDarklitef:
-			cryptonightdarklite_fast_hash(in, (char*)hash, size);
+			cryptonightdarklite_hash(in, hash, size, 1);
 			break;
 		 case CNFast:
-			cryptonightfast_hash(in, (char*)hash, size, 1);
-			break;
-		 case CNFastf:
-			cryptonightfast_fast_hash(in, (char*)hash, size);
-			break;
-		 case CNF:
-			cryptonight_fast_hash(in, (char*)hash, size);
+			cryptonightfast_hash(in, hash, size, 1);
 			break;
 		 case CNLite:
-			cryptonightlite_hash(in, (char*)hash, size, 1);
-			break;
-		 case CNLitef:
-			cryptonightlite_fast_hash(in, (char*)hash, size);
-			break;
-		 case CNSoftshellf:
-			cryptonight_soft_shell_fast_hash(in, (char*)hash, size);
+			cryptonightlite_hash(in, hash, size, 1);
 			break;
 		 case CNTurtle:
-			cryptonightturtle_hash(in, (char*)hash, size, 1);
-			break;
-		 case CNTurtlef:
-			cryptonightturtle_fast_hash(in, (char*)hash, size);
+			cryptonightturtle_hash(in, hash, size, 1);
 			break;
 		 case CNTurtlelite:
-			cryptonightturtlelite_hash(in, (char*)hash, size, 1);
-			break;
-		 case CNTurtlelitef:;
-			cryptonightturtlelite_fast_hash(in, (char*)hash, size);
+			cryptonightturtlelite_hash(in, hash, size, 1);
 			break;
 		}
 		//selection core algo
